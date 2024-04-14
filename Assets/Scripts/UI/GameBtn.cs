@@ -3,18 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace UISystem
+namespace ItemSystem
 {
     public class GameBtn : MonoBehaviour
     {
-        [Inject] private UIController _uiController;
+        [Inject] private ItemController _uiController;
 
         [SerializeField] private Button _btn;
         
         [Inject]
         public void Construct()
         {
-            _uiController.AddItemUI(Constants.GameBtnID, new ItemUI(_btn));
+            _uiController.AddItemUI(Constants.GameBtnID, new Item(_btn));
         }
     }
 }

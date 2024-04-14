@@ -15,7 +15,7 @@ namespace Core
             }
         }
 
-        public T Spawn(T prefab, Vector2 pos, Quaternion rot, Transform container)
+        public T Spawn(T prefab, Vector3 pos, Quaternion rot, Transform container)
         {
             InitPool(prefab, container);
             return _pools[prefab.name].Spawn(pos, rot, container);
@@ -45,7 +45,7 @@ namespace Core
                 _container = container;
             }
 
-            public T Spawn(Vector2 pos, Quaternion rot, Transform container)
+            public T Spawn(Vector3 pos, Quaternion rot, Transform container)
             {
                 T obj;
                 if (_inactive.Count == 0)

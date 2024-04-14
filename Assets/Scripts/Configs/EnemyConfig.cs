@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Game;
 using UnityEngine;
+using static Game.Constants;
 
 namespace EnemySystem
 {
@@ -12,11 +14,9 @@ namespace EnemySystem
     }
 
     [Serializable]
-    public class EnemyItem
+    public class EnemyItem: CharacterItem
     {
-        public string Id;
-        public int HP = 10;
-        public int Damage = 5;
+        public EnemyTypes Id;
         public EnemyView Prefab;
     }
 }

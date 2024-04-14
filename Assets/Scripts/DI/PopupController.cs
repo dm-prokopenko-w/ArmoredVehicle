@@ -1,22 +1,20 @@
 using System.Collections.Generic;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using static Game.Constants;
 
-namespace UISystem
+namespace ItemSystem
 {
 	public class PopupController : IStartable
     {
-		[Inject] private UIController _uiController;
+		[Inject] private ItemController _itemController;
 
 		private Dictionary<string, PopupView> _popups = new ();
-		private string _currentPopup = "";
 		
 		public void Start()
 		{
-			_uiController.SetAction(ActivePopupID + true, (id) => ActivePopup(id, true));
-			_uiController.SetAction(ActivePopupID + false, (id) => ActivePopup(id, false));
+			_itemController.SetAction(ActivePopupID + true, (id) => ActivePopup(id, true));
+			_itemController.SetAction(ActivePopupID + false, (id) => ActivePopup(id, false));
 		}
 
 		public void AddPopupView(string id, PopupView popupView) => _popups.Add(id, popupView);

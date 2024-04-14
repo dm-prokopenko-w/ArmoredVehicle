@@ -10,6 +10,6 @@ namespace PlayerSystem
     {
         public int HP = 100;
         public int Damage = 3;
-        public GameObject Bullet;
+        public Bullet Bullet;
     }
 }

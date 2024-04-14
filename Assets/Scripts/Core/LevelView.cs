@@ -1,4 +1,7 @@
+using Core;
+using EnemySystem;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,6 +9,8 @@ namespace LevelsSystem
 {
     public class LevelView : MonoBehaviour
     {
+        [SerializeField] private List<Enemy> _enemies;
+
         public bool IsMoved { get; set; }
         private UnityEvent _onTick = new ();
 
@@ -13,18 +18,22 @@ namespace LevelsSystem
         private float _speed;
         private Action<LevelView> _onDespawn;
 
-        private void Start()
+        protected void Start()
         {
             _onTick.AddListener(Move);
         }
 
-        public void Init(float endPosY, UnityEvent onTick, Action<LevelView> onDespawn, float speed)
+        public List<Enemy> Init(List<EnemyItem> items, Action<Collider, Enemy> onTrigger)
         {
-            _onTick = onTick;
-            _endPosY = endPosY;
-            IsMoved = true;
-            _onDespawn = onDespawn;
-            _speed = speed;
+            foreach (var enemy in _enemies)
+            {
+                var item = items.Find(x => x.Id == enemy.Id);
+
+                if (item == null) continue;
+                enemy.Init(item, (col) => onTrigger(col, enemy));
+            }
+
+            return _enemies;
         }
 
         private void Move()
@@ -32,7 +41,6 @@ namespace LevelsSystem
             if(!IsMoved) return;
             
             transform.Translate(Vector2.down * Time.deltaTime * _speed);
-           // _image.Rotate(0, 0, 1);
 
             if (!(_endPosY > transform.position.y)) return;
             IsMoved = false;

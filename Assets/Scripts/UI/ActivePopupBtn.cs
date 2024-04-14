@@ -5,11 +5,11 @@ using UnityEngine;
 using VContainer;
 using static Game.Constants;
 
-namespace UISystem
+namespace ItemSystem
 {
     public class ActivePopupBtn : MonoBehaviour
     {
-        [Inject] private UIController _uiController;
+        [Inject] private ItemController _itemController;
 
         [SerializeField] private PopupsID _id;
         [SerializeField] private Button _button;
@@ -18,7 +18,7 @@ namespace UISystem
         [Inject]
         public void Construct()
         {
-            _uiController.AddItemUI(ActivePopupID + _isActive, new ItemUI(_button, _id.ToString()));
+            _itemController.AddItemUI(ActivePopupID + _isActive, new Item(_button, _id.ToString()));
         }
     }
 }

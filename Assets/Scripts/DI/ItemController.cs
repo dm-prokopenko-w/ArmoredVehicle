@@ -4,28 +4,28 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UISystem
+namespace ItemSystem
 {
-	public class UIController
+	public class ItemController
 	{
-		private Dictionary<string, List<ItemUI>> _items = new ();
+		private Dictionary<string, List<Item>> _items = new ();
 
-		public void AddItemUI(string id, ItemUI item)
+		public void AddItemUI(string id, Item item)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				items.Add(item);
 			}
 			else
 			{
-				List<ItemUI> newItems = new List<ItemUI> { item };
+				List<Item> newItems = new List<Item> { item };
 				_items.Add(id, newItems);
 			}
 		}
 		
 		public Transform GetTransformParent(string id)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				return items[0].Tr;
 			}
@@ -35,7 +35,7 @@ namespace UISystem
 		
 		public void SetAction(string id, UnityAction func)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				foreach (var item in items)
 				{
@@ -47,7 +47,7 @@ namespace UISystem
 		
 		public void SetInteractable(string id, bool value)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				foreach (var item in items)
 				{
@@ -56,10 +56,21 @@ namespace UISystem
 				}
 			}
 		}
-		
+
+		public void SetActivBtn(string id, bool value)
+		{
+			if (_items.TryGetValue(id, out List<Item> items))
+			{
+				foreach (var item in items)
+				{
+					if (item.Btn == null) continue;
+					item.Btn.gameObject.SetActive(value);
+				}
+			}
+		}
 		public void SetAction(string id, UnityAction<string> func)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				foreach (var item in items)
 				{
@@ -72,7 +83,7 @@ namespace UISystem
 
 		public void SetText(string id, string text)
 		{
-			if (_items.TryGetValue(id, out List<ItemUI> items))
+			if (_items.TryGetValue(id, out List<Item> items))
 			{
 				foreach (var item in items)
 				{
@@ -83,29 +94,29 @@ namespace UISystem
 		}
 	}
 
-	public class ItemUI
+	public class Item
 	{
 		public Button Btn;
 		public Transform Tr;
 		public TMP_Text TextTMP;
 		public string Parm;
 
-		public ItemUI(Button btn)
+		public Item(Button btn)
 		{
 			Btn = btn;
 		}
 
-		public ItemUI(TMP_Text text)
+		public Item(TMP_Text text)
 		{
 			TextTMP = text;
 		}
 
-		public ItemUI(Transform tr)
+		public Item(Transform tr)
 		{
 			Tr = tr;
 		}
 		
-		public ItemUI(Button btn, string parm)
+		public Item(Button btn, string parm)
 		{
 			Btn = btn;
 			Parm = parm;

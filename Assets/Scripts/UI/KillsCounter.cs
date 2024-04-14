@@ -3,18 +3,18 @@ using TMPro;
 using UnityEngine;
 using VContainer;
 
-namespace UISystem
+namespace ItemSystem
 {
     public class KillsCounter : MonoBehaviour
     {
-        [Inject] private UIController _uiController;
+        [Inject] private ItemController _uiController;
 
         [SerializeField] private TMP_Text _text;
         
         [Inject]
         public void Construct()
         {
-            _uiController.AddItemUI(Constants.KillsCounterID, new ItemUI(_text));
+            _uiController.AddItemUI(Constants.KillsCounterID, new Item(_text));
         }
     }
 }

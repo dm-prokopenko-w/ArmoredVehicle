@@ -2,7 +2,7 @@ using UnityEngine;
 using VContainer;
 using static Game.Constants;
 
-namespace UISystem
+namespace ItemSystem
 {
 	public class PopupView : MonoBehaviour
 	{

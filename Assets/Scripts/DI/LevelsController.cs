@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using BattleSystem;
+using EnemySystem;
 using Game;
 using GameplaySystem;
-using UISystem;
+using ItemSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using VContainer;
@@ -15,33 +17,36 @@ namespace LevelsSystem
     {
         [Inject] private GameplayController _gameplay;
         [Inject] private AssetLoader _assetLoader;
-        [Inject] private UIController _uiController;
+        [Inject] private BattleController _battleController;
+        [Inject] private ItemController _itemController;
 
         private bool _isEnd = false;
-        private UnityEvent OnTick = new ();
+        private UnityEvent OnTick = new();
 
         private int _secondsBeforeSpawnMin;
         private int _secondsBeforeSpawnMax;
-        
+
         private float _asteroidSpeedMin;
-        private float _asteroidSpeedMax;
-        
+        private List<EnemyItem> _enemies;
+
         private bool _isPlay;
         private List<LevelView> _levelViews = new();
         private float _speed;
-        private LevelsConfig _data;
+        private LevelsConfig _dataLevels;
         private Transform _parent;
-        
+
         public void Start()
         {
             _gameplay.OsPlayGame += (value) => _isPlay = value;
             _gameplay.OnGameOver += DespawnAll;
             _gameplay.OnResetGame += DespawnAll;
 
-            _data = _assetLoader.LoadConfig(Constants.LevelsConfigPath) as LevelsConfig;
+            _dataLevels = _assetLoader.LoadConfig(Constants.LevelsConfigPath) as LevelsConfig;
+            var dataEnemies = _assetLoader.LoadConfig(Constants.EnemyConfigPath) as EnemyConfig;
+            _enemies = dataEnemies.Enemies;
 
-            _parent = _uiController.GetTransformParent(Constants.ParentLevels);
-            
+            _parent = _itemController.GetTransformParent(Constants.ParentLevels);
+
             SpawnLevels(0);
         }
 
@@ -50,22 +55,29 @@ namespace LevelsSystem
             _speed = GetLevelSpeed(num);
             int posZ = Constants.LevelStep;
             var levels = GetLevelViews(num);
-            
-            foreach (var lvl in levels)
+
+            foreach (var level in levels)
             {
-                _levelViews.Add(Object.Instantiate(lvl, new Vector3(0, 0, posZ), Quaternion.identity, _parent));
+                var lvl = Object.Instantiate(level, new Vector3(0, 0, posZ), Quaternion.identity, _parent);
+                var enemies = lvl.Init(_enemies, _battleController.DamageEnemy);
+                _battleController.AddEnemies(enemies);
+                _levelViews.Add(lvl);
                 posZ += Constants.LevelStep;
             }
         }
 
-        private float GetLevelSpeed(int num) => _data.Levels[num].LevelSpeed;
-        private List<LevelView> GetLevelViews(int num) => _data.Levels[num].LevelViews;
-        
+        private void CheckTrigger(Collider trigger, Enemy enemy)
+        {
+        }
+
+        private float GetLevelSpeed(int num) => _dataLevels.Levels[num].LevelSpeed;
+        private List<LevelView> GetLevelViews(int num) => _dataLevels.Levels[num].LevelViews;
+
         private void DespawnAll()
         {
             _levelViews.Clear();
         }
-        
+
         private void Despawn(LevelView levelView)
         {
             _levelViews.Remove(levelView);

@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace EnemySystem
 {
-    public class EnemyView : MonoBehaviour
+    public class EnemyView : CharacterView
     {
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField] private Transform _canvas;
+        private Transform _cam;
+
+        private void Start()
         {
-        
+            _cam = Camera.main.transform;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
-        
+            _canvas.LookAt(_cam);
         }
     }
 }

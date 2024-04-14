@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core;
+using System;
 using UnityEngine;
+using static Game.Constants;
 
-public class Enemy : MonoBehaviour
+namespace EnemySystem
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Enemy : Character
     {
-        var rot = Random.Range(0, 359);
-        transform.Rotate(0, rot, 0);
-    }
+        [SerializeField] private EnemyTypes _id;
+        [SerializeField] private EnemyView _view;
 
-    // Update is called once per frame
-    void Update()
-    {
+        private void Start()
+        {
+            var rot = UnityEngine.Random.Range(0, 359);
+            transform.Rotate(0, rot, 0);
+        }
+
+        public override void Init(CharacterItem item, Action<Collider> onTrigger)
+        {
+            base.Init(item, onTrigger);
+            _view.SetHP();
+        }
+
+        public override void TakeDamage(float damage, Action onDead)
+        {
+            base.TakeDamage(damage, onDead);
+
+            _view.SetHP(_hp / _maxHP);
+        }
+
+        public EnemyTypes Id => _id;
     }
 }

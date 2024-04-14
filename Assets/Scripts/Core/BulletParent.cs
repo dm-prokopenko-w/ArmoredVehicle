@@ -3,16 +3,18 @@ using UnityEngine;
 using VContainer;
 using static Game.Constants;
 
-namespace LevelsSystem
+namespace PlayerSystem
 {
-    public class LevelsParent : MonoBehaviour
+    public class BulletParent : MonoBehaviour
     {
         [Inject] private ItemController _itemController;
-        
+
+        [SerializeField] private ObjectState _state;
+
         [Inject]
         public void Construct()
         {
-            _itemController.AddItemUI(ParentLevels, new Item(transform));
+            _itemController.AddItemUI(BalletParentID + _state, new Item(transform));
         }
-    } 
+    }
 }

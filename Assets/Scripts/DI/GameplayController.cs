@@ -1,17 +1,14 @@
 using System;
 using Game;
-using UISystem;
-using UnityEngine;
-using UnityEngine.Serialization;
+using ItemSystem;
 using VContainer;
 using VContainer.Unity;
-using Application = UnityEngine.Device.Application;
 
 namespace GameplaySystem
 {
     public class GameplayController: IStartable
     {
-        [Inject] private UIController _uiController;
+        [Inject] private ItemController _itemController;
 
         public Action<bool> OsPlayGame;
         public Action OnGameOver;
@@ -22,8 +19,8 @@ namespace GameplaySystem
         
         public void Start()
         {
-            _uiController.SetAction(Constants.GameBtnID, UpdateGame);
-            _uiController.SetText(Constants.KillsCounterID, "0");
+            _itemController.SetAction(Constants.GameBtnID, UpdateGame);
+            _itemController.SetText(Constants.KillsCounterID, "0");
         }
 
         private void UpdateGame()
@@ -33,22 +30,22 @@ namespace GameplaySystem
 
             if (_isPlayGame)
             {
-                _uiController.SetInteractable(Constants.GameBtnID, false);
+                _itemController.SetActivBtn(Constants.GameBtnID, false);
             }
         }
 
         public void ResetGame()
         {
-            _uiController.SetInteractable(Constants.GameBtnID, true);
+            _itemController.SetActivBtn(Constants.GameBtnID, true);
             _countAsteroidCollision = 0;
-            _uiController.SetText(Constants.KillsCounterID, _countAsteroidCollision.ToString());
+            _itemController.SetText(Constants.KillsCounterID, _countAsteroidCollision.ToString());
             OnResetGame?.Invoke();
         }
         
         public void GameOver()
         {
             _countAsteroidCollision++;
-            _uiController.SetText(Constants.KillsCounterID, _countAsteroidCollision.ToString());
+            _itemController.SetText(Constants.KillsCounterID, _countAsteroidCollision.ToString());
             OnGameOver?.Invoke();
         }
     }
