@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d2b8bca190a3ec448a61679eaed0139, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: 
+  Id: 1
+  MinCountEnemy: 5
+  MaxCountEnemy: 10
+  LevelSpeed: 10
+  CountRandomLevels: 3
+  StartLevelViews: {fileID: 2631335373541473628, guid: 9631381d1bf451741b1c7cfb62b82891,
+    type: 3}
+  TypesLevelViews:
+  - {fileID: 6231630539138759089, guid: 18e63e08660bb6f4b9f689427eb56087, type: 3}
+  FinishLevelViews: {fileID: 6640276786325320784, guid: e9b4ec4c4099563489ab4993944660bf,
+    type: 3}

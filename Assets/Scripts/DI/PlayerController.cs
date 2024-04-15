@@ -31,8 +31,7 @@ namespace PlayerSystem
         private bool _isAttack;
         private float _stepRot = 120f;
         private Bullet _bulletPrefab;
-        private Transform _bulletParentActive;
-        private Transform _bulletParentInactive;
+        private Transform _parentActive;
         private CharacterItem _playerItem;
 
         public void Start()
@@ -45,11 +44,11 @@ namespace PlayerSystem
 
             _maxX = Screen.width / 2 - 200;
             
-            _bulletParentActive = _itemController.GetTransformParent(BalletParentID + ObjectState.Active);
-            _bulletParentInactive = _itemController.GetTransformParent(BalletParentID + ObjectState.Inactive);
+            _parentActive = _itemController.GetTransformParent(BalletParentID + ObjectState.Active);
+            var parentInactive = _itemController.GetTransformParent(BalletParentID + ObjectState.Inactive);
 
             _pool = new ObjectPool<Bullet>();
-            _pool.InitPool(_bulletPrefab, _bulletParentInactive);
+            _pool.InitPool(_bulletPrefab, parentInactive);
         }
 
         private void PlayGame(bool value)
@@ -125,7 +124,7 @@ namespace PlayerSystem
 
         private void Attack()
         {
-            var bullet = _pool.Spawn(_bulletPrefab, _player.StartBulletPos, Quaternion.identity, _bulletParentActive);
+            var bullet = _pool.Spawn(_bulletPrefab, _player.StartBulletPos, Quaternion.identity, _parentActive);
             _battleController.UpdateBulletList(bullet, true);
             bullet.Move(_player.DirAttack, () => DespawnBullt(bullet));
         }

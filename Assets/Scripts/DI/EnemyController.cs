@@ -7,6 +7,9 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using static Game.Constants;
+using Random = UnityEngine.Random;
+using Core;
+using ItemSystem;
 
 namespace EnemySystem
 {
@@ -15,34 +18,54 @@ namespace EnemySystem
         [Inject] private AssetLoader _assetLoader;
         [Inject] private BattleController _battleController;
         [Inject] private GameplayController _gameplay;
+        [Inject] private ItemController _itemController;
 
-        private List<EnemyItem> _enemyItems = new ();
-        private List<Enemy> _enemies = new ();
+        private List<Enemy> _enemies = new();
         private bool _isPlay;
+        private ObjectPool<Enemy> _pool;
+
+        private EnemyConfig _data;
 
         public void Start()
         {
             _gameplay.OsPlayGame += (value) => _isPlay = value;
             _gameplay.OnResetGame += ResetGame;
-        }
 
-        public void Init(List<Enemy> enemies)
-        {
-            var dataEnemies = _assetLoader.LoadConfig(EnemyConfigPath) as EnemyConfig;
-            _enemyItems = dataEnemies.Enemies;
+            _data = _assetLoader.LoadConfig(EnemyConfigPath) as EnemyConfig;
 
-            _battleController.AddEnemies(enemies);
-            _enemies.AddRange(enemies);
-            foreach (var enemy in enemies)
+            var parentInactive = _itemController.GetTransformParent(ParentEnemy + ObjectState.Inactive);
+            _pool = new ObjectPool<Enemy>();
+
+            foreach (var enemy in _data.Enemies)
             {
-                var itemConfig = _enemyItems.Find(x => x.Id == enemy.Id);
-
-                if (itemConfig == null) continue;
-
-                enemy.Init(itemConfig, (col) => _battleController.DamageEnemy(col, enemy));
+                _pool.InitPool(enemy.Prefab, parentInactive);
             }
         }
-        
+
+        public void SpawnEnemy(int count, Transform parent)
+        {
+            List<Enemy> enemies = new();
+
+            for (int i = 0; i < count; i++)
+            {
+                var item = RandomEnemy;
+                
+                var posEnemy = (new Vector3(
+                    parent.position.x + Random.Range(-SpawnSize, SpawnSize),
+                    0,
+                    parent.position.z + Random.Range(-SpawnSize, SpawnSize)));
+
+                var enemy = _pool.Spawn(item.Prefab, posEnemy, Quaternion.identity, parent);
+                enemy.Init(item, (col) => _battleController.DamageEnemy(col, enemy));
+                enemies.Add(enemy);
+            }
+            
+            _battleController.AddEnemies(enemies);
+            _enemies.AddRange(enemies);
+        }
+
+        private EnemyItem RandomEnemy => _data.Enemies[Random.Range(0, _data.Enemies.Count)];
+
         public void Dispose()
         {
             _gameplay.OnResetGame -= ResetGame;
@@ -53,7 +76,7 @@ namespace EnemySystem
         {
             foreach (var enemy in _enemies)
             {
-                if(!enemy.gameObject.activeSelf) Debug.LogError(enemy.gameObject.name);
+                if (!enemy.gameObject.activeSelf) Debug.LogError(enemy.gameObject.name);
                 enemy.gameObject.SetActive(true);
                 enemy.ResetGame();
             }
@@ -65,14 +88,15 @@ namespace EnemySystem
 
             foreach (var enemy in _enemies)
             {
-                if(!enemy.IsActive) continue;
+                if (!enemy.IsActive) continue;
 
-                float distance = Vector3.Distance (enemy.transform.position, Vector3.zero);
+                float distance = Vector3.Distance(enemy.transform.position, Vector3.zero);
 
                 if (enemy.transform.position.z < DistDead)
                 {
-                    enemy.Dead();   
+                    enemy.Dead();
                 }
+
                 if (distance < DistEnemyMoveToPlayer && enemy.transform.position.z > DistStopMove)
                 {
                     enemy.StartMove();

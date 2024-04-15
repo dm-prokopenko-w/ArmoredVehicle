@@ -8,13 +8,6 @@ namespace LevelsSystem
 	[CreateAssetMenu(fileName = "LevelsConfig", menuName = "Configs/LevelsConfig", order = 0)]
 	public class LevelsConfig : Config
 	{
-		public List<LevelItem> Levels;
-	}
-
-	[Serializable]
-	public class LevelItem
-	{
-		public float LevelSpeed;
-		public List<LevelView> LevelViews;
+		public List<LevelItemConfig> Levels;
 	}
 }

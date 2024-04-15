@@ -16,6 +16,6 @@ namespace EnemySystem
     [Serializable]
     public class EnemyItem: CharacterItem
     {
-        public EnemyTypes Id;
+        public Enemy Prefab;
     }
 }

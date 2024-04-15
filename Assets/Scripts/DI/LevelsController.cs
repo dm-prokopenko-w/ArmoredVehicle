@@ -11,6 +11,8 @@ using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using Core;
+using static Game.Constants;
 
 namespace LevelsSystem
 {
@@ -22,87 +24,126 @@ namespace LevelsSystem
         [Inject] private ItemController _itemController;
 
         private bool _isPlay;
-        private Dictionary<int, List<LevelView>> _levelViews = new();
         private List<LevelView> _curLevelViews = new();
         private float _speed;
-        private LevelsConfig _dataLevels;
-        private Transform _parent;
-        private int _curLvl;
-        private int _maxLvl;
+        private LevelsConfig _data;
+        private Transform _parentActive;
 
+        private int _curViews;
+        private int _maxViews;
+        private int _curLvl;
+        private int _maxLvls;
+        private ObjectPool<LevelView> _pool;
+        private UnityEvent _onTick = new ();
+        private int _posZ;
         public void Start()
         {
-            _gameplay.OsPlayGame += (value) => _isPlay = value;
+            _gameplay.OsPlayGame += PlayGame;
             _gameplay.OnGameWin += GameWin;
             _gameplay.OnGameOver += DespawnCurLvl;
-            _gameplay.OnResetGame += () => SpawnLevels(0);
+            _gameplay.OnResetGame += SpawnStartView;
 
-            _dataLevels = _assetLoader.LoadConfig(Constants.LevelsConfigPath) as LevelsConfig;
-            _maxLvl = _dataLevels.Levels.Count - 1;
-            _parent = _itemController.GetTransformParent(Constants.ParentLevels);
+            _data = _assetLoader.LoadConfig(LevelsConfigPath) as LevelsConfig;
+            _maxLvls = _data.Levels.Count - 1;
+            
+            _parentActive = _itemController.GetTransformParent(ParentLevels + ObjectState.Active);
+            var parentInactive = _itemController.GetTransformParent(ParentLevels + ObjectState.Inactive);
+            _pool = new ObjectPool<LevelView>();
+            
+            foreach (var lvl in _data.Levels)
+            {
+                _pool.InitPool(lvl.StartLevelViews, parentInactive);
+                _pool.InitPool(lvl.FinishLevelViews, parentInactive);
 
-            SpawnLevels(_curLvl = 0);
+                foreach (var type in lvl.TypesLevelViews)
+                {
+                    _pool.InitPool(type, parentInactive);
+                }
+            }
+
+            _curLvl = 0;
+
+            SpawnStartView();
         }
 
+        private void PlayGame(bool value)
+        {
+            _isPlay = value;
+
+            if (!value) return;
+            _posZ = LevelStep;
+
+            for (int i = 0; i < 2; i++)
+            {
+                SpawnLvl(RandomLvl);
+            }
+        }
+
+        private void SpawnLvl(LevelView prefab, bool isAddEnemy = true)
+        {
+            var lvl = _pool.Spawn(prefab, new Vector3(0, 0, _posZ), Quaternion.identity, _parentActive);
+            _onTick.AddListener(lvl.Move);
+
+            lvl.Init(GetLevelSpeed(), () =>
+            {
+                _onTick.RemoveListener(lvl.Move);
+                Despawn(lvl);
+            });
+
+            if (isAddEnemy)
+            {
+                var countEnemy = Random.Range(_data.Levels[_curLvl].MaxCountEnemy, _data.Levels[_curLvl].MaxCountEnemy);
+                _enemyController.SpawnEnemy(countEnemy, lvl.transform);
+            }
+            
+            _posZ += LevelStep;
+            _curViews++;
+            _curLevelViews.Add(lvl);
+        }
+        
         private void GameWin()
         {
             _curLvl++;
 
-            if (_maxLvl < _curLvl)
+            if (_maxLvls < _curLvl)
             {
                 _curLvl = 0;
             }
 
-            SpawnLevels(_curLvl);
+            SpawnStartView();
         }
 
-        private void SpawnLevels(int num)
+        private LevelView RandomLvl => _data.Levels[_curLvl]
+            .TypesLevelViews[Random.Range(0, _data.Levels[_curLvl].TypesLevelViews.Count)];
+
+        private void SpawnStartView()
         {
-            _speed = GetLevelSpeed(num);
             DespawnCurLvl();
-            if (!_levelViews.ContainsKey(num))
+            _maxViews = _data.Levels[_curLvl].CountRandomLevels;
+            SpawnLvl(_data.Levels[_curLvl].StartLevelViews, false);
+        }
+
+        private void Despawn(LevelView lvl)
+        {
+            _pool.Despawn(lvl);
+Debug.LogError(_curViews + " - " + _maxViews);
+            if (_curViews < _maxViews)
             {
-                var levelsPrefab = GetLevelViews(num);
-                List<LevelView> levelsView = new();
-                List<Enemy> enemies = new();
-                int posZ = 0;
-
-                foreach (var level in levelsPrefab)
-                {
-                    Debug.LogError(Random.insideUnitCircle);
-                    
-                    var lvl = Object.Instantiate(level, new Vector3(0, 0, posZ), Quaternion.identity, _parent);
-                    enemies.AddRange(lvl.Init());
-
-                    levelsView.Add(lvl);
-                    posZ += Constants.LevelStep;
-                }
-
-                _enemyController.Init(enemies);
-
-                _curLevelViews = levelsView;
-                _levelViews.Add(num, levelsView);
+                SpawnLvl(RandomLvl);
             }
-            else
+            else if(_curViews == _maxViews)
             {
-                _curLevelViews = _levelViews[num];
-
-                foreach (var lvl in _curLevelViews)
-                {
-                    lvl.gameObject.SetActive(true);
-                }
+                SpawnLvl(_data.Levels[_curLvl].FinishLevelViews);
             }
         }
 
-        private float GetLevelSpeed(int num) => _dataLevels.Levels[num].LevelSpeed;
-        private List<LevelView> GetLevelViews(int num) => _dataLevels.Levels[num].LevelViews;
+        private float GetLevelSpeed() => _data.Levels[_curLvl].LevelSpeed;
 
         private void DespawnCurLvl()
         {
             foreach (var lvl in _curLevelViews)
             {
-                lvl.ResetGame();
-                lvl.gameObject.SetActive(false);
+                _pool.Despawn(lvl);
             }
         }
 
@@ -110,18 +151,14 @@ namespace LevelsSystem
         {
             _gameplay.OnGameWin -= GameWin;
             _gameplay.OnGameOver -= DespawnCurLvl;
-            _gameplay.OnResetGame -= () => SpawnLevels(0);
-            _gameplay.OsPlayGame -= (value) => _isPlay = value;
+            _gameplay.OnResetGame -= SpawnStartView;
+            _gameplay.OsPlayGame -= PlayGame;
         }
 
         public void Tick()
         {
             if (!_isPlay) return;
-
-            foreach (var lvl in _curLevelViews)
-            {
-                lvl.transform.Translate(Vector3.back * Time.deltaTime * _speed);
-            }
+            _onTick?.Invoke();
         }
     }
 }

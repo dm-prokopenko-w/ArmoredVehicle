@@ -7,7 +7,7 @@ namespace Game
         public const string LevelsConfigPath = "LevelsConfig";
 
         public const string ParentLevels = "ParentLevels";
-        public const string AsteroidTag = "Asteroid";
+        public const string ParentEnemy = "ParentEnemy";
 
         public const string AnimIdDied = "Died";
 
@@ -40,7 +40,8 @@ namespace Game
         public const float SpeedEnemy = 0.4f;
         public const int DistStopMove = -12;
         public const int DistDead = -18;
-
+        public const float SpawnSize = 40f;
+        
         public enum PopupsID
         {
             None,
