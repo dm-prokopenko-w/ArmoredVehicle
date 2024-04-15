@@ -8,7 +8,6 @@ namespace EnemySystem
     public class Enemy : Character
     {
         [SerializeField] private EnemyTypes _id;
-        [SerializeField] private EnemyView _view;
 
         private void Start()
         {
@@ -16,17 +15,9 @@ namespace EnemySystem
             transform.Rotate(0, rot, 0);
         }
 
-        public override void Init(CharacterItem item, Action<Collider> onTrigger)
+        public override void Dead()
         {
-            base.Init(item, onTrigger);
-            _view.SetHP();
-        }
-
-        public override void TakeDamage(float damage, Action onDead)
-        {
-            base.TakeDamage(damage, onDead);
-
-            _view.SetHP(_hp / _maxHP);
+            gameObject.SetActive(false);
         }
 
         public EnemyTypes Id => _id;

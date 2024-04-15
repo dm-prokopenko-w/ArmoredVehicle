@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: PlayerConfig
   HP: 100
-  Damage: 3
+  Damage: 10
   Bullet: {fileID: 2180852881659515173, guid: 22ba699533874364580cfa7c7ab1b891, type: 3}

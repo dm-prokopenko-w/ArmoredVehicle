@@ -15,6 +15,7 @@ namespace BattleSystem
         [Inject] private GameplayController _gameplay;
 
         public Action<Collider, Enemy> OnDamageEnemy;
+        public Action OnKill;
 
         private List<Enemy> _enemies = new();
         private List<Bullet> _bullets = new();
@@ -33,29 +34,30 @@ namespace BattleSystem
             }
         }
 
-        public void AddPlayer(List<Enemy> enemies) => _enemies.AddRange(enemies);
+        public void AddPlayer(Player player) => _player = player;
 
         public void DamageEnemy(Collider trigger, Enemy enemy)
         {
             if (trigger.tag.Equals("Bullet"))
             {
-                enemy.TakeDamage(_player.Damage, null);
+                enemy.TakeDamage(_player.Damage, () => OnKill?.Invoke());
             }
             else if (trigger.tag.Equals("Player"))
             {
-                enemy.TakeDamage(_player.Damage, null);
+                enemy.Dead();
             }
 
         }
 
         public void DamagePlayer(Collider col)
         {
-            Debug.LogError(1);
-
             var enemy = _enemies.Find(x => x.Col == col);
             if (enemy == null) return;
-            Debug.LogError(2);
-            _player.TakeDamage(enemy.Damage, () => _gameplay.OnGameOver?.Invoke());
+
+            _player.TakeDamage(enemy.Damage, () =>
+            {
+                _gameplay.OnGameOver?.Invoke();
+            });
         }
     }
 }

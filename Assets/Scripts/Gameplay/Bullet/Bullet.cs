@@ -14,7 +14,7 @@ namespace PlayerSystem
 
         public void Move(Vector3 dir, Action onDestroy)
         {
-            _rb.AddForce(dir * Constants.SpeedBullet);
+            _rb.AddForce(new Vector3(dir.x, 0, dir.z) * Constants.SpeedBullet);
             _onDestroy = onDestroy;
             _coroutine = StartCoroutine(DestroyTimer());
         }

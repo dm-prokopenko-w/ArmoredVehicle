@@ -1,11 +1,11 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LevelsSystem
+namespace PlayerSystem
 {
-    public class FinishLevelView : LevelView
+    public class PlayerView : CharacterView
     {
-
     }
 }

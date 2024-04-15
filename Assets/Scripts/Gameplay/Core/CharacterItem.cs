@@ -13,6 +13,7 @@ namespace Core
     public abstract class Character: MonoBehaviour
     {
         [SerializeField] private Collider _col;
+        [SerializeField] protected CharacterView _view;
 
         public float Damage => _damage;
         public Collider Col => _col;
@@ -28,20 +29,27 @@ namespace Core
             _maxHP = _hp;
             _damage = item.Damage;
             _onTrigger = onTrigger;
+            _view.SetHP();
         }
 
         public virtual void TakeDamage(float damage, Action onDead)
         {
             _hp -= damage;
 
-            Debug.LogError(_hp);
+            _view.SetHP(_hp/ _maxHP);
             if (_hp <= 0)
             {
+                Dead();
                 onDead?.Invoke();
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        public virtual void Dead()
+        {
+
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
         {
             _onTrigger?.Invoke(other);
         }

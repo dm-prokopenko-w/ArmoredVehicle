@@ -25,11 +25,11 @@ namespace PlayerSystem
         private ObjectPool<Bullet> _pool;
         private Player _player;
         private bool _isMovePlayer;
-        private float _dirX;
+        private float _curRotY = 180f;
         private float _maxX;
         private bool _isPlay;
         private bool _isAttack;
-        private float _stepRot = 100f;
+        private float _stepRot = 120f;
         private Bullet _bulletPrefab;
         private Transform _bulletParentActive;
         private Transform _bulletParentInactive;
@@ -60,14 +60,13 @@ namespace PlayerSystem
 
         private void Looking(PointerEventData data)
         {
-            if (data.delta.x > 0)
+            if (data.delta.x > 0 && _curRotY < 270)
             {
-                _player.Rotate(new Vector3(0, _stepRot, 0) * Time.deltaTime);
-
+                _curRotY = _player.Rotate(new Vector3(0, _stepRot, 0) * Time.deltaTime);
             }
-            else if (data.delta.x < 0)
+            else if (data.delta.x < 0 && _curRotY > 90)
             {
-                _player.Rotate(new Vector3(0, -_stepRot, 0) * Time.deltaTime);
+                _curRotY=  _player.Rotate(new Vector3(0, -_stepRot, 0) * Time.deltaTime);
             }
         }
 
@@ -84,6 +83,7 @@ namespace PlayerSystem
 
         public void InitPlayer(Player player)
         {
+            _battleController.AddPlayer(player);
             var data = _assetLoader.LoadConfig(PlayerConfigPath) as PlayerConfig;
             _bulletPrefab = data.Bullet;
             _playerItem = new CharacterItem()

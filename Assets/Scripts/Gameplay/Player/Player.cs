@@ -24,15 +24,12 @@ namespace PlayerSystem
             _playerController.InitPlayer(this);
         }
 
-        public void Rotate(Vector3 rot) => TurretTr.Rotate(rot);
-
-        private void OnTriggerEnter(Collider other)
+        public float Rotate(Vector3 rot)
         {
-            if(!other.tag.Equals(Constants.AsteroidTag))return;
-            
-            OnСollision?.Invoke();
+            TurretTr.Rotate(rot);
+            return TurretTr.localEulerAngles.y;
         }
 
-        public Vector3 DirAttack => GunTr.forward;
+        public Vector3 DirAttack => GunTr.position - TurretTr.position;
     }
 }
