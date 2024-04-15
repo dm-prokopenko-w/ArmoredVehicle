@@ -45,6 +45,19 @@ namespace ItemSystem
 			}
 		}
 		
+		public void PlayAnim(string id, string idAnim)
+		{
+			if (_items.TryGetValue(id, out List<Item> items))
+			{
+				foreach (var item in items)
+				{
+					if (item.Anim == null) continue;
+
+					item.Anim.Play(idAnim);
+				}
+			}
+		}
+		
 		public void SetInteractable(string id, bool value)
 		{
 			if (_items.TryGetValue(id, out List<Item> items))
@@ -100,6 +113,7 @@ namespace ItemSystem
 		public Transform Tr;
 		public TMP_Text TextTMP;
 		public string Parm;
+		public Animator Anim;
 
 		public Item(Button btn)
 		{
@@ -114,6 +128,11 @@ namespace ItemSystem
 		public Item(Transform tr)
 		{
 			Tr = tr;
+		}
+		
+		public Item(Animator anim)
+		{
+			Anim = anim;
 		}
 		
 		public Item(Button btn, string parm)

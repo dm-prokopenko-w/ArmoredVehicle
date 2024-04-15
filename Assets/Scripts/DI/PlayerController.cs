@@ -37,16 +37,27 @@ namespace PlayerSystem
 
         public void Start()
         {
-            _gameplay.OsPlayGame += (value) => _isPlay = value;
-            _gameplay.OnResetGame += () => _player.transform.position = Vector3.zero;
+            _gameplay.OsPlayGame += PlayGame;
 
             _control.TouchStart += data => IsAttack(true);
             _control.TouchMoved += data => Looking(data);
             _control.TouchEnd += (data) => IsAttack(false);
 
             _maxX = Screen.width / 2 - 200;
+            
+            _bulletParentActive = _itemController.GetTransformParent(BalletParentID + ObjectState.Active);
+            _bulletParentInactive = _itemController.GetTransformParent(BalletParentID + ObjectState.Inactive);
+
+            _pool = new ObjectPool<Bullet>();
+            _pool.InitPool(_bulletPrefab, _bulletParentInactive);
         }
 
+        private void PlayGame(bool value)
+        {
+            _isPlay = value;
+            _player.ActiveGame(value);
+        }
+        
         private void IsAttack(bool value)
         {
             if (value)
@@ -60,21 +71,17 @@ namespace PlayerSystem
 
         private void Looking(PointerEventData data)
         {
-            if (data.delta.x > 0 && _curRotY < 270)
+            _curRotY = data.delta.x switch
             {
-                _curRotY = _player.Rotate(new Vector3(0, _stepRot, 0) * Time.deltaTime);
-            }
-            else if (data.delta.x < 0 && _curRotY > 90)
-            {
-                _curRotY=  _player.Rotate(new Vector3(0, -_stepRot, 0) * Time.deltaTime);
-            }
+                > 0 when _curRotY < 270 => _player.Rotate(new Vector3(0, _stepRot, 0) * Time.deltaTime),
+                < 0 when _curRotY > 90 => _player.Rotate(new Vector3(0, -_stepRot, 0) * Time.deltaTime),
+                _ => _curRotY
+            };
         }
 
         public void Dispose()
         {
-            _gameplay.OsPlayGame -= (value) => _isPlay = value;
-            _player.OnСollision -= GameOver;
-            _gameplay.OnResetGame -= () => _player.transform.position = Vector3.zero;
+            _gameplay.OsPlayGame -= PlayGame;
 
             _control.TouchStart -= data => IsAttack(true);
             _control.TouchMoved -= data => Looking(data);
@@ -91,27 +98,11 @@ namespace PlayerSystem
                 HP = data.HP,
                 Damage = data.Damage
             };
-
-            _bulletParentActive = _itemController.GetTransformParent(BalletParentID + ObjectState.Active);
-            _bulletParentInactive = _itemController.GetTransformParent(BalletParentID + ObjectState.Inactive);
-
-            _pool = new ObjectPool<Bullet>();
-            _pool.InitPool(_bulletPrefab, _bulletParentInactive);
-
+            
             _player = player;
-            _player.Init(_playerItem, _battleController.DamagePlayer);
-            _player.OnСollision += GameOver;
+            _player.Init(_playerItem, _battleController.TriggerPlayer);
         }
-
-        private async void GameOver()
-        {
-            _gameplay.GameOver();
-
-            await Task.Delay(1500);
-            //_player.PosY.anchoredPosition = new Vector2(0, _player.PosY.anchoredPosition.y);
-            _gameplay.ResetGame();
-        }
-
+        
         public void Tick()
         {
             if (!_isPlay) return;

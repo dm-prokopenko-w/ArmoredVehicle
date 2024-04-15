@@ -7,6 +7,7 @@ using ItemSystem;
 using VContainer.Unity;
 using VContainer;
 using BattleSystem;
+using EnemySystem;
 
 namespace Game
 {
@@ -20,6 +21,7 @@ namespace Game
             builder.Register<GameplayController>(Lifetime.Scoped).As<GameplayController, IStartable>();
             builder.Register<PopupController>(Lifetime.Scoped).As<PopupController, IStartable>();
             builder.Register<LevelsController>(Lifetime.Scoped).As<LevelsController, IStartable, IDisposable, ITickable>();
+            builder.Register<EnemyController>(Lifetime.Scoped).As<EnemyController, IStartable, IDisposable, ITickable>();
             builder.Register<PlayerController>(Lifetime.Scoped).As<PlayerController, IStartable, IDisposable, ITickable>();
 
             builder.RegisterComponentInHierarchy<AssetLoader>();

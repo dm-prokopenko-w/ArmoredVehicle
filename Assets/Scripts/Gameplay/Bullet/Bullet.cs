@@ -22,19 +22,23 @@ namespace PlayerSystem
         private IEnumerator DestroyTimer()
         {
             yield return new WaitForSeconds(10f);
-            _onDestroy?.Invoke();
-            _onDestroy = null;
+            DestroyBullet();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag.Equals("Enemy"))
             {
-                _rb.velocity = Vector3.zero;
-                _onDestroy?.Invoke();
-                _onDestroy = null;
+                DestroyBullet();
                 StopCoroutine(_coroutine);
             }
+        }
+
+        private void DestroyBullet()
+        {
+            _rb.velocity = Vector3.zero;
+            _onDestroy?.Invoke();
+            _onDestroy = null;
         }
     }
 }

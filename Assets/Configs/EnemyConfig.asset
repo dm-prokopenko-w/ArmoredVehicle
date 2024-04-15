@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: EnemyConfig
   Enemies:
-  - Id: 0
-    HP: 10
-    Damage: 5
-    Prefab: {fileID: 0}
+  - HP: 10
+    Damage: 10
+    Id: 0

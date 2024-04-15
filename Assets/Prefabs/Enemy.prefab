@@ -280,7 +280,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6378263213854277517}
+  - {fileID: 3925069757537006151}
   - {fileID: 4998925103429155367}
   m_Father: {fileID: 7593510587411576133}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -663,6 +663,8 @@ MonoBehaviour:
   _col: {fileID: 6781430830920208170}
   _view: {fileID: 201328776907568545}
   _id: 0
+  _anim: {fileID: 842783347943573350}
+  _rb: {fileID: 1450577018248273665}
 --- !u!136 &6781430830920208170
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -678,7 +680,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -713,7 +715,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1001 &6849585685972965478
+--- !u!1001 &3598973529906894252
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -721,57 +723,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2931029501199675340}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+    - target: {fileID: 919132149155446097, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
         type: 3}
       propertyPath: m_Name
       value: stickman
@@ -779,11 +781,42 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f06e7cd98f168a242be743c5aaf9ecf2, type: 3}
---- !u!4 &6378263213854277517 stripped
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 842783347943573350}
+  m_SourcePrefab: {fileID: 100100000, guid: 9906604e7932ba14eb8a80f1a70b2d1f, type: 3}
+--- !u!4 &3925069757537006151 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f06e7cd98f168a242be743c5aaf9ecf2,
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
     type: 3}
-  m_PrefabInstance: {fileID: 6849585685972965478}
+  m_PrefabInstance: {fileID: 3598973529906894252}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4409998797655992573 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9906604e7932ba14eb8a80f1a70b2d1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3598973529906894252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &842783347943573350
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4409998797655992573}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 72b07d8641cad9d4c909360799a76dc4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -17,6 +17,5 @@ namespace EnemySystem
     public class EnemyItem: CharacterItem
     {
         public EnemyTypes Id;
-        public EnemyView Prefab;
     }
 }

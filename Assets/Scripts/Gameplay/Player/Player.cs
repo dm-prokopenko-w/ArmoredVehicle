@@ -12,18 +12,22 @@ namespace PlayerSystem
 
         [SerializeField] private Transform GunTr;
         [SerializeField] private Transform TurretTr;
-
-        public Action OnСollision;
-
-        public float PosY => transform.position.x;
+        [SerializeField] private GameObject Line;
+        
         public Vector3 StartBulletPos => GunTr.position;
 
         [Inject]
         public void Construct()
         {
             _playerController.InitPlayer(this);
+            Line.SetActive(false);
         }
 
+        public void ActiveGame(bool value)
+        {
+            Line.SetActive(value);
+        }
+        
         public float Rotate(Vector3 rot)
         {
             TurretTr.Rotate(rot);

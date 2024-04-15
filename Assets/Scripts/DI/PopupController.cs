@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using static Game.Constants;
@@ -10,21 +11,30 @@ namespace ItemSystem
 		[Inject] private ItemController _itemController;
 
 		private Dictionary<string, PopupView> _popups = new ();
+		private string _idCurrentPopup;
 		
 		public void Start()
 		{
-			_itemController.SetAction(ActivePopupID + true, (id) => ActivePopup(id, true));
-			_itemController.SetAction(ActivePopupID + false, (id) => ActivePopup(id, false));
+			_itemController.SetAction(ActivePopupID + true, ShowPopup);
+			_itemController.SetAction(ActivePopupID + false, (id) => HideCurrentPopup());
 		}
 
 		public void AddPopupView(string id, PopupView popupView) => _popups.Add(id, popupView);
 
-		private void ActivePopup(string id, bool value)
+		public void ShowPopup(string id)
 		{
-			string keyName = value ? ShowKey : HideKey;
-			if (_popups.TryGetValue(id, out PopupView popup))
+			_idCurrentPopup = id;
+			if (_popups.TryGetValue(_idCurrentPopup, out PopupView popup))
 			{
-				popup.GetAnimator().Play(keyName);
+				popup.GetAnimator().Play(ShowKey);
+			}
+		}
+
+		public void HideCurrentPopup()
+		{
+			if (_popups.TryGetValue(_idCurrentPopup, out PopupView popup))
+			{
+				popup.GetAnimator().Play(HideKey);
 			}
 		}
 	}

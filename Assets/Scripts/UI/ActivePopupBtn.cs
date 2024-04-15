@@ -13,7 +13,7 @@ namespace ItemSystem
 
         [SerializeField] private PopupsID _id;
         [SerializeField] private Button _button;
-        [SerializeField] private bool _isActive;
+        [SerializeField] private bool _isActive = false;
 
         [Inject]
         public void Construct()

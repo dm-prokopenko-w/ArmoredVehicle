@@ -16,12 +16,14 @@ MonoBehaviour:
   Levels:
   - LevelSpeed: 10
     LevelViews:
+    - {fileID: 2631335373541473628, guid: 9631381d1bf451741b1c7cfb62b82891, type: 3}
     - {fileID: 6231630539138759089, guid: 18e63e08660bb6f4b9f689427eb56087, type: 3}
     - {fileID: 9151062155520477808, guid: 683199e3171a36a4095f74461d4de676, type: 3}
     - {fileID: 7068943787870558355, guid: 18827df9f0222984f8fb23ee29ac104a, type: 3}
     - {fileID: 6640276786325320784, guid: e9b4ec4c4099563489ab4993944660bf, type: 3}
-  - LevelSpeed: 7
+  - LevelSpeed: 20
     LevelViews:
+    - {fileID: 2631335373541473628, guid: 9631381d1bf451741b1c7cfb62b82891, type: 3}
     - {fileID: 6231630539138759089, guid: 18e63e08660bb6f4b9f689427eb56087, type: 3}
     - {fileID: 9151062155520477808, guid: 683199e3171a36a4095f74461d4de676, type: 3}
     - {fileID: 7068943787870558355, guid: 18827df9f0222984f8fb23ee29ac104a, type: 3}

@@ -14,7 +14,6 @@ namespace BattleSystem
     {
         [Inject] private GameplayController _gameplay;
 
-        public Action<Collider, Enemy> OnDamageEnemy;
         public Action OnKill;
 
         private List<Enemy> _enemies = new();
@@ -46,17 +45,21 @@ namespace BattleSystem
             {
                 enemy.Dead();
             }
-
         }
 
-        public void DamagePlayer(Collider col)
+        public void TriggerPlayer(Collider trigger)
         {
-            var enemy = _enemies.Find(x => x.Col == col);
+            if (trigger.tag.Equals("Finish"))
+            {
+                _gameplay.GameWin();
+                return;
+            }
+            var enemy = _enemies.Find(x => x.Col == trigger);
             if (enemy == null) return;
 
             _player.TakeDamage(enemy.Damage, () =>
             {
-                _gameplay.OnGameOver?.Invoke();
+                _gameplay.GameOver();
             });
         }
     }

@@ -18,10 +18,10 @@ namespace Core
         public float Damage => _damage;
         public Collider Col => _col;
 
-        protected float _damage;
-        protected float _maxHP;
-        protected float _hp;
-        protected Action<Collider> _onTrigger;
+        private float _damage;
+        private float _maxHP;
+        private float _hp;
+        private Action<Collider> _onTrigger;
 
         public virtual void Init(CharacterItem item, Action<Collider> onTrigger)
         {
@@ -48,7 +48,13 @@ namespace Core
         {
 
         }
-
+        
+        public virtual void ResetGame()
+        {
+            _hp = _maxHP;
+            _view.SetHP();
+        }
+        
         protected virtual void OnTriggerEnter(Collider other)
         {
             _onTrigger?.Invoke(other);

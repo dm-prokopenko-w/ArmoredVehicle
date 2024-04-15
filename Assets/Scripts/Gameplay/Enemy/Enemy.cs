@@ -8,16 +8,46 @@ namespace EnemySystem
     public class Enemy : Character
     {
         [SerializeField] private EnemyTypes _id;
+        [SerializeField] protected Animator _anim;
+        [SerializeField] protected Rigidbody _rb;
 
+        public bool IsActive { get; private set; }
+
+        private bool _isStartMove = false;
+        
         private void Start()
         {
             var rot = UnityEngine.Random.Range(0, 359);
             transform.Rotate(0, rot, 0);
+            IsActive = true;
         }
+
+        private void PlayAnim(string id) => _anim.Play(id);
 
         public override void Dead()
         {
-            gameObject.SetActive(false);
+            ActiveEnemy(IsActive = false);
+            _isStartMove = false;
+            PlayAnim(EnemyIdle);
+        }
+        
+        public override void ResetGame()
+        {
+            base.ResetGame();
+            ActiveEnemy(IsActive = true);
+        }
+
+        public void StartMove()
+        {
+            if(_isStartMove) return;
+            _isStartMove = true;
+            PlayAnim(EnemyRun);
+        }
+        
+        private void ActiveEnemy(bool value)
+        {
+            Col.enabled = value;
+            _view.gameObject.SetActive(value);
         }
 
         public EnemyTypes Id => _id;
