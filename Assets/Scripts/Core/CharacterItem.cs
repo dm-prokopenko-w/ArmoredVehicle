@@ -22,8 +22,8 @@ namespace Core
         private float _maxHP;
         private float _hp;
         private Action<Collider> _onTrigger;
-
-        public virtual void Init(CharacterItem item, Action<Collider> onTrigger)
+        
+        public void Init(CharacterItem item, Action<Collider> onTrigger)
         {
             _hp = item.HP;
             _maxHP = _hp;
@@ -32,22 +32,17 @@ namespace Core
             _view.SetHP();
         }
 
-        public virtual void TakeDamage(float damage, Action onDead)
+        public void TakeDamage(float damage, Action onDead)
         {
             _hp -= damage;
 
             _view.SetHP(_hp/ _maxHP);
-            if (_hp <= 0)
-            {
-                Dead();
-                onDead?.Invoke();
-            }
+            if (!(_hp <= 0)) return;
+            Dead();
+            onDead?.Invoke();
         }
 
-        public virtual void Dead()
-        {
-
-        }
+        public virtual void Dead(){ }
         
         public virtual void ResetGame()
         {
@@ -55,10 +50,7 @@ namespace Core
             _view.SetHP();
         }
 
-        protected virtual void OnTriggerEnter(Collider other)
-        {
-            _onTrigger?.Invoke(other);
-        }
+        protected virtual void OnTriggerEnter(Collider other) => _onTrigger?.Invoke(other);
     }
 
     public abstract class CharacterView: MonoBehaviour

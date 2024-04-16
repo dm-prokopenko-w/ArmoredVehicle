@@ -27,11 +27,9 @@ namespace PlayerSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag.Equals("Enemy"))
-            {
-                DestroyBullet();
-                StopCoroutine(_coroutine);
-            }
+            if (!other.tag.Equals(Constants.EnemyTag)) return;
+            DestroyBullet();
+            StopCoroutine(_coroutine);
         }
 
         private void DestroyBullet()

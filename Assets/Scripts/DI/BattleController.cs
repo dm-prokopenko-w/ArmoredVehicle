@@ -1,13 +1,10 @@
 using EnemySystem;
 using GameplaySystem;
 using PlayerSystem;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using ItemSystem;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 using VFXSystem;
 using static Game.Constants;
 
@@ -20,24 +17,11 @@ namespace BattleSystem
         [Inject] private VFXController _vfxController;
 
         private List<Enemy> _enemies = new();
-        private List<Bullet> _bullets = new();
         private Player _player;
         private int _killCount = 0;
 
         public void AddEnemies(List<Enemy> enemies) => _enemies.AddRange(enemies);
         
-        public void UpdateBulletList(Bullet bullet, bool value)
-        {
-            if (value)
-            {
-                _bullets.Add(bullet);
-            }
-            else
-            {
-                _bullets.Remove(bullet);
-            }
-        }
-
         public void AddPlayer(Player player)
         {
             _player = player;
@@ -58,7 +42,7 @@ namespace BattleSystem
             }
             else if (trigger.tag.Equals("Player"))
             {
-                //_vfxController.SpawnEffect(VFXObjectType.EnemyDead, enemy.transform.position);
+               _vfxController.SpawnEffect(VFXObjectType.EnemyDead, enemy.transform.position);
                 enemy.Dead();
             }
         }

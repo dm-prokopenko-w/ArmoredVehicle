@@ -1,8 +1,7 @@
 using System;
-using System.Threading.Tasks;
 using BattleSystem;
 using Core;
-using Core.ControlSystem;
+using ControlSystem;
 using Game;
 using GameplaySystem;
 using ItemSystem;
@@ -24,7 +23,6 @@ namespace PlayerSystem
 
         private ObjectPool<Bullet> _pool;
         private Player _player;
-        private bool _isMovePlayer;
         private float _curRotY = 180f;
 
         private bool _isPlay;
@@ -32,7 +30,6 @@ namespace PlayerSystem
         private Bullet _bulletPrefab;
         private Transform _parentActive;
         private CharacterItem _playerItem;
-        private float _secBetwenAttack = 0.5f;
         private float _current = 0f;
 
         public void Start()
@@ -111,7 +108,7 @@ namespace PlayerSystem
         private void Timer()
         {
             _current += Time.deltaTime;
-            if (_current > _secBetwenAttack)
+            if (_current > SecBetweenAttack)
             {
                 _current = 0;
                 Attack();
@@ -121,14 +118,7 @@ namespace PlayerSystem
         private void Attack()
         {
             var bullet = _pool.Spawn(_bulletPrefab, _player.StartBulletPos, _player.TurretQuat, _parentActive); 
-            _battleController.UpdateBulletList(bullet, true);
-            bullet.Move(_player.DirAttack, () => DespawnBullet(bullet));
-        }
-
-        private void DespawnBullet(Bullet bullet)
-        {
-            _battleController.UpdateBulletList(bullet, false);
-            _pool.Despawn(bullet);
+            bullet.Move(_player.DirAttack, () =>  _pool.Despawn(bullet));
         }
     }
 }

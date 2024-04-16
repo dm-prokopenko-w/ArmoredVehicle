@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using static Game.Constants;
@@ -30,7 +29,7 @@ namespace ItemSystem
 			}
 		}
 
-		public void HideCurrentPopup()
+		private void HideCurrentPopup()
 		{
 			if (_popups.TryGetValue(_idCurrentPopup, out PopupView popup))
 			{

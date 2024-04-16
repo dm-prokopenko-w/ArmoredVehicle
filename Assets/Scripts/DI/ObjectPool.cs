@@ -5,7 +5,7 @@ namespace Core
 {
     public class ObjectPool<T> where T: Behaviour
     {
-        private Dictionary<string, Pool<T>> _pools = new Dictionary<string, Pool<T>>();
+        private Dictionary<string, Pool<T>> _pools = new ();
         
         public void InitPool(T prefab, Transform container)
         {

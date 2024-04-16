@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   Id: 1
-  MinCountEnemy: 10
-  MaxCountEnemy: 15
-  LevelSpeed: 20
-  CountRandomLevels: 4
+  MinCountEnemy: 70
+  MaxCountEnemy: 100
+  LevelSpeed: 10
+  CountRandomLevels: 5
   StartLevelViews: {fileID: 2631335373541473628, guid: 9631381d1bf451741b1c7cfb62b82891,
     type: 3}
   TypesLevelViews:

@@ -18,3 +18,11 @@ MonoBehaviour:
     Damage: 1
     Prefab: {fileID: 1664247089638851441, guid: 08215a433fead094db1d8dc2365f7144,
       type: 3}
+  - HP: 10
+    Damage: 2
+    Prefab: {fileID: 1664247089638851441, guid: 08215a433fead094db1d8dc2365f7144,
+      type: 3}
+  - HP: 10
+    Damage: 5
+    Prefab: {fileID: 1664247089638851441, guid: 08215a433fead094db1d8dc2365f7144,
+      type: 3}

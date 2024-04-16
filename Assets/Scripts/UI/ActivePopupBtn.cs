@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine.UI;
-using Game;
 using UnityEngine;
 using VContainer;
 using static Game.Constants;

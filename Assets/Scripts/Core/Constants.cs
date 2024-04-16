@@ -7,10 +7,9 @@ namespace Game
         public const string LevelsConfigPath = "LevelsConfig";
         public const string VFXConfigPath = "VFXConfig";
 
-        public const string BalletParentID = "BalletParent";
-        public const string CameraAnimatorID = "CameraAnimator";
         public const string ActivePopupID = "ActivePopup";
         
+        public const string AnimatorViewID = "CameraAnimator";
         public const string TextViewID = "TextViewID";
         public const string ButtonViewID = "ButtonViewID";
         public const string TransformViewID = "TransformViewID";
@@ -23,6 +22,8 @@ namespace Game
 
         public const string EnemyIdle = "Idle";
         public const string EnemyRun = "Run";
+        
+        public const string EnemyTag = "Enemy";
 
         public const string KillsCountText = "Kill: ";
         public const string LevelsCountText = "Level: ";
@@ -36,6 +37,7 @@ namespace Game
         public const float SpawnSize = 35f;
         
         public const float StepRotTurret = 120f;
+        public const float SecBetweenAttack = 0.5f;
         
         public enum PopupsID
         {
@@ -72,6 +74,12 @@ namespace Game
             None,
             KillCounter,
             LvlCounter,
+        }
+        
+        public enum AnimatorObject
+        {
+            None,
+            CameraAnimator,
         }
         
         public enum VFXObjectType

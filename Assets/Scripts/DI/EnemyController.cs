@@ -74,16 +74,14 @@ namespace EnemySystem
         {
             _isPlay = value;
 
-            if (!value)
+            if (value) return;
+            foreach (var enemy in _enemies)
             {
-                foreach (var enemy in _enemies)
-                {
-                    enemy.ResetGame();
-                    _pool.Despawn(enemy);
-                }
-            
-                _enemies.Clear();
+                enemy.ResetGame();
+                _pool.Despawn(enemy);
             }
+            
+            _enemies.Clear();
         }
 
         public void Tick()
@@ -94,19 +92,17 @@ namespace EnemySystem
             {
                 if (!enemy.IsActive) continue;
 
-                float distance = Vector3.Distance(enemy.transform.position, Vector3.zero);
+                var distance = Vector3.Distance(enemy.transform.position, Vector3.zero);
 
                 if (enemy.transform.position.z < DistDead)
                 {
                     enemy.Dead();
                 }
 
-                if (distance < DistEnemyMoveToPlayer && enemy.transform.position.z > DistStopMove)
-                {
-                    enemy.StartMove();
-                    enemy.transform.LookAt(Vector3.zero);
-                    enemy.transform.Translate(-enemy.transform.position * Time.deltaTime * SpeedEnemy, Space.World);
-                }
+                if (!(distance < DistEnemyMoveToPlayer) || !(enemy.transform.position.z > DistStopMove)) continue;
+                enemy.StartMove();
+                enemy.transform.LookAt(Vector3.zero);
+                enemy.transform.Translate(-enemy.transform.position * Time.deltaTime * SpeedEnemy, Space.World);
             }
         }
     }

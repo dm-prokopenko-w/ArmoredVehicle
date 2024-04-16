@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Core;
 using Game;
 using UnityEngine;
-using static Game.Constants;
 
 namespace EnemySystem
 {

@@ -1,7 +1,6 @@
 using ItemSystem;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 using static Game.Constants;
 

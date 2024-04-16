@@ -1121,6 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 571207335}
+  _type: 1
 --- !u!1 &616831651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2077,17 +2078,17 @@ PrefabInstance:
     - target: {fileID: 5298016846299231225, guid: 27c5f4e1efa669845bb6209114e17e23,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5298016846299231225, guid: 27c5f4e1efa669845bb6209114e17e23,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5298016846299231225, guid: 27c5f4e1efa669845bb6209114e17e23,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7329598751046958644, guid: 27c5f4e1efa669845bb6209114e17e23,
         type: 3}

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.EventSystems;
 
-namespace Core.ControlSystem
+namespace ControlSystem
 {
     public class ControlModule 
     {

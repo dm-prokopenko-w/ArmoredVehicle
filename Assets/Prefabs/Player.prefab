@@ -536,8 +536,6 @@ MonoBehaviour:
   _view: {fileID: 3136970850301767842}
   GunTr: {fileID: 2459060753771077553}
   TurretTr: {fileID: 7807694431020853817}
-  Line: {fileID: 4770215008440904333}
-  UI: {fileID: 2904096316198858825}
 --- !u!65 &572813313578732590
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1211,6 +1209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpView: {fileID: 7995663915461970047}
+  Line: {fileID: 4770215008440904333}
+  UI: {fileID: 2904096316198858825}
 --- !u!1 &4994976467390959668
 GameObject:
   m_ObjectHideFlags: 0

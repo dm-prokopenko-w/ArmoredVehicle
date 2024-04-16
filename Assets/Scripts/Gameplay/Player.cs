@@ -1,6 +1,4 @@
-using System;
 using Core;
-using Game;
 using UnityEngine;
 using VContainer;
 
@@ -12,22 +10,21 @@ namespace PlayerSystem
 
         [SerializeField] private Transform GunTr;
         [SerializeField] private Transform TurretTr;
-        [SerializeField] private GameObject Line;
-        [SerializeField] private GameObject UI;
         
         public Vector3 StartBulletPos => GunTr.position;
-
+        private PlayerView _playerView;
+        
         [Inject]
         public void Construct()
         {
+            _playerView = _view as PlayerView;
             _playerController.InitPlayer(this);
             ActiveGame(false);
         }
 
         public void ActiveGame(bool value)
         {
-            Line.SetActive(value);
-            UI.SetActive(value);
+            _playerView.ActiveGame(value);
             
             if (value) return;
             ResetGame();

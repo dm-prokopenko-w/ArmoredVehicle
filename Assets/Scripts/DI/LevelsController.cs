@@ -23,7 +23,6 @@ namespace LevelsSystem
 
         private bool _isPlay;
         private List<LevelView> _curLevelViews = new();
-        private float _speed;
         private LevelsConfig _data;
         private Transform _parentActive;
 
@@ -33,6 +32,7 @@ namespace LevelsSystem
         private int _curLvl;
         private int _maxLvls;
         private int _winLvls;
+        
         private ObjectPool<LevelView> _pool;
         private UnityEvent _onTick = new ();
         private int _posZ;

@@ -1,6 +1,6 @@
 ﻿using System;
 using LevelsSystem;
-using Core.ControlSystem;
+using ControlSystem;
 using GameplaySystem;
 using PlayerSystem;
 using ItemSystem;

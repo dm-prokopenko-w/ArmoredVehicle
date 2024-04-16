@@ -5,7 +5,7 @@ namespace Game
 {
 	public class AssetLoader : MonoBehaviour
 	{
-		[SerializeField] private List<Config> _configs = new List<Config>();
+		[SerializeField] private List<Config> _configs = new ();
 
 		public Config LoadConfig(string configId)
 		{

@@ -18,11 +18,9 @@ namespace VFXSystem
             while(true && _ps != null)
             {
                 yield return new WaitForSeconds(0.5f);
-                if(!_ps.IsAlive(true))
-                {
-                    onDespawn?.Invoke();
-                    break;
-                }
+                if (_ps.IsAlive(true)) continue;
+                onDespawn?.Invoke();
+                break;
             }
         }
     }

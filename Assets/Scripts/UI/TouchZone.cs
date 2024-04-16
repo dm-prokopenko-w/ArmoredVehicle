@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
 
-namespace Core.ControlSystem
+namespace ControlSystem
 {
     public class TouchZone : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {

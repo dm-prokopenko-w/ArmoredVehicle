@@ -1,6 +1,5 @@
 using Core;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace EnemySystem
 {
