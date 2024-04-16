@@ -8,6 +8,7 @@ using VContainer.Unity;
 using VContainer;
 using BattleSystem;
 using EnemySystem;
+using VFXSystem;
 
 namespace Game
 {
@@ -19,6 +20,7 @@ namespace Game
             builder.Register<ControlModule>(Lifetime.Scoped);
             builder.Register<BattleController>(Lifetime.Scoped);
             builder.Register<GameplayController>(Lifetime.Scoped).As<GameplayController, IStartable>();
+            builder.Register<VFXController>(Lifetime.Scoped).As<VFXController, IStartable>();
             builder.Register<PopupController>(Lifetime.Scoped).As<PopupController, IStartable>();
             builder.Register<LevelsController>(Lifetime.Scoped).As<LevelsController, IStartable, IDisposable, ITickable>();
             builder.Register<EnemyController>(Lifetime.Scoped).As<EnemyController, IStartable, IDisposable, ITickable>();

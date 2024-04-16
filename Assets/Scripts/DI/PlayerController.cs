@@ -29,18 +29,19 @@ namespace PlayerSystem
 
         private bool _isPlay;
         private bool _isAttack;
-        private float _stepRot = 120f;
         private Bullet _bulletPrefab;
         private Transform _parentActive;
         private CharacterItem _playerItem;
+        private float _secBetwenAttack = 0.5f;
+        private float _current = 0f;
 
         public void Start()
         {
             _gameplay.OsPlayGame += PlayGame;
 
-            _control.TouchStart += data => IsAttack(true);
+            _control.TouchStart += _ => IsAttack(true);
             _control.TouchMoved += data => Looking(data);
-            _control.TouchEnd += (data) => IsAttack(false);
+            _control.TouchEnd += _ => IsAttack(false);
             
             _parentActive = _itemController.GetTransform(TransformViewID + TransformObject.ActiveBulletParent);
             var parentInactive = _itemController.GetTransform(TransformViewID + TransformObject.InactiveBulletParent);
@@ -70,8 +71,8 @@ namespace PlayerSystem
         {
             _curRotY = data.delta.x switch
             {
-                > 0 when _curRotY < 270 => _player.Rotate(new Vector3(0, _stepRot, 0) * Time.deltaTime),
-                < 0 when _curRotY > 90 => _player.Rotate(new Vector3(0, -_stepRot, 0) * Time.deltaTime),
+                > 0 when _curRotY < 270 => _player.Rotate(new Vector3(0, StepRotTurret, 0) * Time.deltaTime),
+                < 0 when _curRotY > 90 => _player.Rotate(new Vector3(0, -StepRotTurret, 0) * Time.deltaTime),
                 _ => _curRotY
             };
         }
@@ -106,10 +107,7 @@ namespace PlayerSystem
             if (!_isAttack) return;
             Timer();
         }
-
-        private float _secBetwenAttack = 0.5f;
-        private float _current = 0f;
-
+        
         private void Timer()
         {
             _current += Time.deltaTime;
@@ -122,12 +120,12 @@ namespace PlayerSystem
 
         private void Attack()
         {
-            var bullet = _pool.Spawn(_bulletPrefab, _player.StartBulletPos, Quaternion.identity, _parentActive);
+            var bullet = _pool.Spawn(_bulletPrefab, _player.StartBulletPos, _player.TurretQuat, _parentActive); 
             _battleController.UpdateBulletList(bullet, true);
-            bullet.Move(_player.DirAttack, () => DespawnBullt(bullet));
+            bullet.Move(_player.DirAttack, () => DespawnBullet(bullet));
         }
 
-        private void DespawnBullt(Bullet bullet)
+        private void DespawnBullet(Bullet bullet)
         {
             _battleController.UpdateBulletList(bullet, false);
             _pool.Despawn(bullet);

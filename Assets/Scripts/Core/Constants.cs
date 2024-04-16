@@ -5,6 +5,7 @@ namespace Game
         public const string EnemyConfigPath = "EnemyConfig";
         public const string PlayerConfigPath = "PlayerConfig";
         public const string LevelsConfigPath = "LevelsConfig";
+        public const string VFXConfigPath = "VFXConfig";
 
         public const string BalletParentID = "BalletParent";
         public const string CameraAnimatorID = "CameraAnimator";
@@ -34,6 +35,8 @@ namespace Game
         public const int DistDead = -18;
         public const float SpawnSize = 35f;
         
+        public const float StepRotTurret = 120f;
+        
         public enum PopupsID
         {
             None,
@@ -53,6 +56,9 @@ namespace Game
             
             ActiveEnemyParent,
             InactiveEnemyParent,
+            
+            ActiveVFXParent,
+            InactiveVFXParent,
         }
 
         public enum ButtonObject
@@ -66,6 +72,14 @@ namespace Game
             None,
             KillCounter,
             LvlCounter,
+        }
+        
+        public enum VFXObjectType
+        {
+            None,
+            EnemyDead,
+            EnemyDamage,
+            PlayerDamage,
         }
     }
 }

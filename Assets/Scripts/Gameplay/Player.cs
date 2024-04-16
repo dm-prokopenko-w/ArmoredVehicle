@@ -42,5 +42,6 @@ namespace PlayerSystem
         }
 
         public Vector3 DirAttack => GunTr.position - TurretTr.position;
+        public Quaternion TurretQuat => TurretTr.localRotation;
     }
 }
