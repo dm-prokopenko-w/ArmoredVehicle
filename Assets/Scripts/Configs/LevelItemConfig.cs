@@ -10,8 +10,8 @@ namespace LevelsSystem
     {
         [Range(0, 99)]public int MinCountEnemy = 5;
         [Range(0, 100)]public int MaxCountEnemy = 10;
-        public float LevelSpeed;
-        [Min(2)] public int CountRandomLevels;
+        [Min(1)] public float LevelSpeed;
+        [Min(3)] public int CountRandomLevels;
         public LevelView StartLevelViews;
         public List<LevelView> TypesLevelViews;
         public LevelView FinishLevelViews;

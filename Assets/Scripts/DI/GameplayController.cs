@@ -15,56 +15,48 @@ namespace GameplaySystem
         public Action<bool> OsPlayGame;
         public Action OnGameOver;
         public Action OnGameWin;
-        public Action OnResetGame;
 
         private bool _isPlayGame = false;
         private Animator _animCamera;
-
+        
         public void Start()
         {
-            _itemController.SetAction(ActivePopupID + false, (id) => ResetGame());
-            _itemController.SetAction(GameBtnID, UpdateGame);
-            _itemController.SetText(KillsCounterID, "0");
+            _itemController.SetAction(ButtonViewID + ButtonObject.StartGame, () => UpdateGame(true));
             _itemController.PlayAnim(CameraAnimatorID, StartStateCamera);
         }
 
-        private void UpdateGame()
+        private void UpdateGame(bool value)
         {
-            _isPlayGame = !_isPlayGame;
+            _isPlayGame = value;
+            
             OsPlayGame?.Invoke(_isPlayGame);
 
             if (_isPlayGame)
             {
-                _itemController.SetActivBtn(GameBtnID, false);
+                _itemController.SetActiveBtn(ButtonViewID + ButtonObject.StartGame, false);
                 _itemController.PlayAnim(CameraAnimatorID, GameStateCamera);
             }
             else
             {
                 _itemController.PlayAnim(CameraAnimatorID, StartStateCamera);
+                _itemController.SetActiveBtn(ButtonViewID + ButtonObject.StartGame, true);
             }
-        }
-
-        public void ResetGame()
-        {
-            if (_isPlayGame) return;
-
-            _itemController.SetActivBtn(GameBtnID, true);
-            OnResetGame?.Invoke();
-            UpdateGame();
         }
         
         public void GameOver()
-        {           
-            UpdateGame();
-            _popupController.ShowPopup(PopupsID.Lose.ToString());
+        {         
             OnGameOver?.Invoke();
+
+            _popupController.ShowPopup(PopupsID.Lose.ToString());
+            UpdateGame(false);
         }
         
         public void GameWin()
-        {           
-            UpdateGame();
-            _popupController.ShowPopup(PopupsID.Win.ToString());
+        {     
             OnGameWin?.Invoke();
+
+            UpdateGame(false);
+            _popupController.ShowPopup(PopupsID.Win.ToString());
         }
     }
 }

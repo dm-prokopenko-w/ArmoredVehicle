@@ -28,12 +28,11 @@ namespace EnemySystem
 
         public void Start()
         {
-            _gameplay.OsPlayGame += (value) => _isPlay = value;
-            _gameplay.OnResetGame += ResetGame;
+            _gameplay.OsPlayGame += UpdateGame;
 
             _data = _assetLoader.LoadConfig(EnemyConfigPath) as EnemyConfig;
 
-            var parentInactive = _itemController.GetTransformParent(ParentEnemy + ObjectState.Inactive);
+            var parentInactive = _itemController.GetTransform(TransformViewID + TransformObject.InactiveEnemyParent);
             _pool = new ObjectPool<Enemy>();
 
             foreach (var enemy in _data.Enemies)
@@ -68,17 +67,22 @@ namespace EnemySystem
 
         public void Dispose()
         {
-            _gameplay.OnResetGame -= ResetGame;
-            _gameplay.OsPlayGame -= (value) => _isPlay = value;
+            _gameplay.OsPlayGame -= UpdateGame;
         }
 
-        private void ResetGame()
+        private void UpdateGame(bool value )
         {
-            foreach (var enemy in _enemies)
+            _isPlay = value;
+
+            if (!value)
             {
-                if (!enemy.gameObject.activeSelf) Debug.LogError(enemy.gameObject.name);
-                enemy.gameObject.SetActive(true);
-                enemy.ResetGame();
+                foreach (var enemy in _enemies)
+                {
+                    enemy.ResetGame();
+                    _pool.Despawn(enemy);
+                }
+            
+                _enemies.Clear();
             }
         }
 

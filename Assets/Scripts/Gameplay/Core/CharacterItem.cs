@@ -6,8 +6,8 @@ namespace Core
 {
     public class CharacterItem
     {
-        public float HP = 10;
-        public float Damage = 5;
+        [Min(1)] public float HP = 10;
+        [Min(1)] public float Damage = 5;
     }
 
     public abstract class Character: MonoBehaviour
@@ -54,7 +54,7 @@ namespace Core
             _hp = _maxHP;
             _view.SetHP();
         }
-        
+
         protected virtual void OnTriggerEnter(Collider other)
         {
             _onTrigger?.Invoke(other);
@@ -66,6 +66,5 @@ namespace Core
         [SerializeField] protected Slider _hpView;
 
         public void SetHP(float value = 1f) => _hpView.value = value;
-
     }
 }

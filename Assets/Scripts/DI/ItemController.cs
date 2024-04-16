@@ -23,11 +23,17 @@ namespace ItemSystem
 			}
 		}
 		
-		public Transform GetTransformParent(string id)
+		public Transform GetTransform(string id)
 		{
 			if (_items.TryGetValue(id, out List<Item> items))
 			{
-				return items[0].Tr;
+				foreach (var item in items)
+				{
+					if (item.Tr == null) continue;
+
+					return item.Tr;
+				}
+				return null;
 			}
 
 			return null;
@@ -58,19 +64,7 @@ namespace ItemSystem
 			}
 		}
 		
-		public void SetInteractable(string id, bool value)
-		{
-			if (_items.TryGetValue(id, out List<Item> items))
-			{
-				foreach (var item in items)
-				{
-					if (item.Btn == null) continue;
-					item.Btn.interactable = value;
-				}
-			}
-		}
-
-		public void SetActivBtn(string id, bool value)
+		public void SetActiveBtn(string id, bool value)
 		{
 			if (_items.TryGetValue(id, out List<Item> items))
 			{
@@ -81,6 +75,7 @@ namespace ItemSystem
 				}
 			}
 		}
+		
 		public void SetAction(string id, UnityAction<string> func)
 		{
 			if (_items.TryGetValue(id, out List<Item> items))
@@ -92,7 +87,6 @@ namespace ItemSystem
 				}
 			}
 		}
-
 
 		public void SetText(string id, string text)
 		{

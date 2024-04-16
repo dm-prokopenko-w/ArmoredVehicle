@@ -26,7 +26,7 @@ namespace PlayerSystem
         private Player _player;
         private bool _isMovePlayer;
         private float _curRotY = 180f;
-        private float _maxX;
+
         private bool _isPlay;
         private bool _isAttack;
         private float _stepRot = 120f;
@@ -41,11 +41,9 @@ namespace PlayerSystem
             _control.TouchStart += data => IsAttack(true);
             _control.TouchMoved += data => Looking(data);
             _control.TouchEnd += (data) => IsAttack(false);
-
-            _maxX = Screen.width / 2 - 200;
             
-            _parentActive = _itemController.GetTransformParent(BalletParentID + ObjectState.Active);
-            var parentInactive = _itemController.GetTransformParent(BalletParentID + ObjectState.Inactive);
+            _parentActive = _itemController.GetTransform(TransformViewID + TransformObject.ActiveBulletParent);
+            var parentInactive = _itemController.GetTransform(TransformViewID + TransformObject.InactiveBulletParent);
 
             _pool = new ObjectPool<Bullet>();
             _pool.InitPool(_bulletPrefab, parentInactive);

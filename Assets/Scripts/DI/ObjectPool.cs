@@ -21,6 +21,12 @@ namespace Core
             return _pools[prefab.name].Spawn(pos, rot, container);
         }
 
+        public T SpawnLocal(T prefab, Vector3 pos, Quaternion rot, Transform container)
+        {
+            InitPool(prefab, container);
+            return _pools[prefab.name].SpawnLocal(pos, rot, container);
+        }
+
         public void Despawn(T obj)
         {
             if (_pools.ContainsKey(obj.name))
@@ -62,6 +68,27 @@ namespace Core
 
                 obj.transform.position = pos;
                 obj.transform.rotation = rot;
+                obj.gameObject.SetActive(true);
+                return obj;
+            }
+
+            public T SpawnLocal(Vector3 pos, Quaternion rot, Transform container)
+            {
+                T obj;
+                if (_inactive.Count == 0)
+                {
+                    obj = Object.Instantiate(_prefab, pos, rot, container);
+                    obj.name = _prefab.name;
+                }
+                else
+                {
+                    obj = _inactive[_inactive.Count - 1];
+                    _inactive.RemoveAt(_inactive.Count - 1);
+                    obj.transform.SetParent(container);
+                }
+
+                obj.transform.localPosition = pos;
+                obj.transform.localRotation = rot;
                 obj.gameObject.SetActive(true);
                 return obj;
             }

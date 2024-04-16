@@ -5,16 +5,16 @@ using static Game.Constants;
 
 namespace LevelsSystem
 {
-    public class LevelsParent : MonoBehaviour
+    public class TransformView : MonoBehaviour
     {
         [Inject] private ItemController _itemController;
         
-        [SerializeField] private ObjectState _state;
+        [SerializeField] private TransformObject _type;
 
         [Inject]
         public void Construct()
         {
-            _itemController.AddItemUI(ParentLevels + _state, new Item(transform));
+            _itemController.AddItemUI(TransformViewID + _type, new Item(transform));
         }
     } 
 }

@@ -9,7 +9,7 @@ namespace PlayerSystem
     {
         [Inject] private ItemController _itemController;
 
-        [SerializeField] private ObjectState _state;
+        [SerializeField] private TextObject _state;
 
         [Inject]
         public void Construct()

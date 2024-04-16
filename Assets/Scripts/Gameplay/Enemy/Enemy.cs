@@ -7,7 +7,6 @@ namespace EnemySystem
 {
     public class Enemy : Character
     {
-        [SerializeField] private EnemyTypes _id;
         [SerializeField] protected Animator _anim;
         [SerializeField] protected Rigidbody _rb;
 
@@ -34,6 +33,7 @@ namespace EnemySystem
         public override void ResetGame()
         {
             base.ResetGame();
+            _isStartMove = false;
             ActiveEnemy(IsActive = true);
         }
 
@@ -49,7 +49,5 @@ namespace EnemySystem
             Col.enabled = value;
             _view.gameObject.SetActive(value);
         }
-
-        public EnemyTypes Id => _id;
     }
 }

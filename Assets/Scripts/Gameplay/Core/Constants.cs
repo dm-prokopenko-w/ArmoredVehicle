@@ -6,18 +6,13 @@ namespace Game
         public const string PlayerConfigPath = "PlayerConfig";
         public const string LevelsConfigPath = "LevelsConfig";
 
-        public const string ParentLevels = "ParentLevels";
-        public const string ParentEnemy = "ParentEnemy";
-
-        public const string AnimIdDied = "Died";
-
-        public const string GameBtnID = "GameBtnID";
-        public const string ResetBtnID = "ResetBtnID";
-        public const string QuitBtnID = "QuitBtnID";
         public const string BalletParentID = "BalletParent";
         public const string CameraAnimatorID = "CameraAnimator";
-
-        public const string KillsCounterID = "KillsCounter";
+        public const string ActivePopupID = "ActivePopup";
+        
+        public const string TextViewID = "TextViewID";
+        public const string ButtonViewID = "ButtonViewID";
+        public const string TransformViewID = "TransformViewID";
 
         public const string ShowKey = "Show";
         public const string HideKey = "Hide";
@@ -28,37 +23,49 @@ namespace Game
         public const string EnemyIdle = "Idle";
         public const string EnemyRun = "Run";
 
-        public const string ActivePopupID = "ActivePopup";
-        
-        public const string PopupLoseText = "";
-        public const string PopupWinText = "You win";
-
+        public const string KillsCountText = "Kill: ";
+        public const string LevelsCountText = "Level: ";
 
         public const int DistEnemyMoveToPlayer = 50;
         public const int LevelStep = 105;
         public const int SpeedBullet = 500;
-        public const float SpeedEnemy = 0.4f;
+        public const float SpeedEnemy = 0.6f;
         public const int DistStopMove = -12;
         public const int DistDead = -18;
-        public const float SpawnSize = 40f;
+        public const float SpawnSize = 35f;
         
         public enum PopupsID
         {
             None,
             Win,
-            Lose
+            Lose,
         }
 
-        public enum ObjectState
+        public enum TransformObject
         {
             None,
-            Active,
-            Inactive
+            
+            ActiveLevelsParent,
+            InactiveLevelsParent,
+
+            ActiveBulletParent,
+            InactiveBulletParent,
+            
+            ActiveEnemyParent,
+            InactiveEnemyParent,
         }
 
-        public enum EnemyTypes
+        public enum ButtonObject
         {
-            Simple,
+            None,
+            StartGame,
+        }
+        
+        public enum TextObject
+        {
+            None,
+            KillCounter,
+            LvlCounter,
         }
     }
 }
